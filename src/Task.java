@@ -1,3 +1,15 @@
+import java.time.LocalDate;
+
 public class Task {
-   String a = "kjfdjf";
+    private int taskNumber  ;
+    private String wantedProduct ;
+    private float wantedAmount ;
+    private String costumerName ;
+    private LocalDate startDate ; 
+    private LocalDate finishDate ;
+    //// state run
+    private ProductLine productLine  ;
+    
+
+
 }
