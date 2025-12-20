@@ -1,4 +1,9 @@
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Item {
+    static List products = new ArrayList();
     private int itemId ;
     private String itemName ;
     private String tybe ;
@@ -16,6 +21,7 @@ public class Item {
         this.limit = limit;
         this.itemId = counter ;
         counter++;
+        products.add(itemName);
     }
 
     public void pullAmount(int amount){
@@ -25,6 +31,21 @@ public class Item {
 
     public int getAmount() {
         return amount;
+    }
+    public void setAmount(int amount){
+        this.amount = amount ;
+    }
+
+    public static void Add_products(String productName , int productAmount){
+        for(int i = 0 ; i<products.size(); i+=2 ){
+            if(products.get(i).equals(productName)){
+                products.set(i+1 , productAmount);
+            }else{
+                products.add(productName);
+                products.add(productAmount);
+            }
+
+        }
     }
 
 

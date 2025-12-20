@@ -1,9 +1,12 @@
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+
 
 public class Main {
     public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
 
         //Creat Items
 
@@ -35,16 +38,7 @@ public class Main {
         
         //creat task
         
-        Task t1 = new Task(p1 , 77 , "eee" , pl1);
-System.out.println("i1 " + i1.getAmount());
-System.out.println("i2 = "+i2.getAmount()); 
-System.out.println("i1 " + i1.getAmount());
-System.out.println("i2 = "+i2.getAmount()); 
-System.out.println("i1 " + i1.getAmount());
-System.out.println("i2 = "+i2.getAmount()); 
-System.out.println("i1 " + i1.getAmount());
-System.out.println("i2 = "+i2.getAmount());
-
+        Task t1 = new Task(p1 , 777 , "hussien" , pl1);
 
     }
 }
