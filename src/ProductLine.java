@@ -1,4 +1,14 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Scanner;
+import javax.imageio.IIOException;
+
 public class ProductLine  implements Runnable{
+            Scanner in = new Scanner(System.in);
+
     private int lineNumber ; 
     private String LineName ; 
     private String ProductLinestatus ;
@@ -20,23 +30,24 @@ public class ProductLine  implements Runnable{
 
 //creat and start
 
-    private Product Proudect ;
+    private Product proudect ;
     private int Amount ;
     private String costumerN ;
 
     public ProductLine startProductLine  (String costumerName ,Product wantedProduct,int wantedAmount ){
     Amount = wantedAmount ;
-    Proudect = wantedProduct ;
+    proudect = wantedProduct ;
     costumerN = costumerName ;
-     this.thread.start();
-     return this ; 
+    this.thread.start();
+    return this ; 
     }
     
     @Override
     public void run() {   
-        if (check(Proudect, Amount, costumerN)){
-            pullAmount(Proudect, Amount, costumerN);
-        }else System.out.println("the items not enough");
+        if (check(proudect, Amount, costumerN)){
+            pullAmount(proudect, Amount, costumerN);
+            AddProudectTOStore(proudect, Amount);
+        }else SendNotification(proudect, Amount, costumerN);
 
    
 
@@ -45,43 +56,7 @@ public class ProductLine  implements Runnable{
                
 
     }
-/* 
-    //Check enough Items
 
-    synchronized public boolean ChecEnoughItems(Product Proudect,int Amount,String costumerName){
-
-        if(Proudect.getProductName().equals("desk")){
-
-           if(((Item)Proudect.Items.get(0)).getAmount() -  ((int)Proudect.Items.get(1)*Amount) >= 0 && ((Item)Proudect.Items.get(2)).getAmount() -  ((int)Proudect.Items.get(1)*Amount) >= 0)
-            {
-                int a ;
-                a = (int)Proudect.Items.get(1) * Amount ;
-                int b ;
-                 b = (int)Proudect.Items.get(3) * Amount;
-                ((Item)Proudect.Items.get(0)).pullAmount(a);
-                ((Item)Proudect.Items.get(2)).pullAmount(b);
-                return true ;
-            }else{
-                System.out.println("there is no enough amount of items for " + costumerName +"'s order .");
-                return false ;
-                }
-
-            }else if(Proudect.getProductName().equals("cupboard")){
-
-                if (((Item)Proudect.Items.get(0)).getAmount() -  ((int)Proudect.Items.get(1)*Amount) >= 0){
-                int a  ;
-                a = (int)Proudect.Items.get(1) * Amount ;
-                ((Item)Proudect.Items.get(0)).pullAmount(a);
-                return true ;
-
-                }else {System.out.println("there is no enough amount of items for "+ costumerName +"'s order .");
-             return false ;}  
-
-            }
-
-        return false;
-        }  
-*/
         //يتفقد ما اذا كانت الموارد كافية
 
         public boolean check (Product Proudect,int Amount,String costumerName){
@@ -103,9 +78,89 @@ public class ProductLine  implements Runnable{
                 ((Item)Proudect.Items.get(i)).pullAmount(a);
                 System.out.println("2i2 = " + i);     
              }
+            }
+            //تابع يرسل اشعار و يتعامل مع الموارد الغير كافية للمنتجات
+            public void SendNotification(Product Proudect,int Amount,String costumerName){
+                System.out.println("the items not enough \n menu : \n 1.suspend order untel resources become available \n 2.cancel order \n (chose number)");
+                int i = in.nextInt();
+                if(i==1){
+                    System.out.println(costumerName+", your order : "+Amount+" of "+ Proudect.getProductName()+" ,has been pended untel resources become available .");
+                    boolean j=false;
+                    do{
+                        j=check(Proudect, Amount, costumerName);
+                       
+                        try {
+                            thread.sleep(10000);
+                        } catch (InterruptedException ex) {
+                            SendExMessage(ex);
+                            System.out.println(ex);                        }
+                    }while(j==false);
+                    System.out.println(costumerName+", your suspended order : "+Amount+" of "+ Proudect.getProductName()+" has been completed");
+                    pullAmount(Proudect, Amount, costumerName);
+                    AddProudectTOStore(Proudect, Amount);
+                }else{
+                    System.out.println("your order canceled");
+                }
+                
+                
+            }
             
+            //تابع يضيف المنتجات المصنعة للمخزون و اذا كانت موجودة يزيد العدد
+            
+            public void AddProudectTOStore(Product Proudect,int Amount){
+                Item.Add_products(proudect.getProductName(),Amount);
+            }
 
-        }
+            //تابع بسجل الاستثناءات الى ملف error.txt
+
+            public void SendExMessage(Exception e){
+                try {
+                    FileWriter fw = new FileWriter("error.txt" , true);
+                    PrintWriter pr = new PrintWriter(fw);
+                    pr.print(e);
+                    pr.flush();
+                } catch (FileNotFoundException ex){
+                    System.out.println(ex);
+                    SendExMessage(ex);
+                }catch(IOException ex){
+                    System.out.println(ex);
+                    SendExMessage(ex);
+                        
+                    }
+            }
+
+            //تابع يسجل حالة المخزون بشكل يومي الى ملف نصي
+
+            public void SendStoreMessage(){ try {
+                    File f = new File("store.txt");
+                    PrintWriter pr = new PrintWriter(f);
+                    while (true) { 
+                        for(int i = 0 ; i < Item.OItems.size(); i++){
+                            pr.print("Item Name :"+Item.OItems.get(i).itemName+" , Amount :"+Item.OItems.get(i).getAmount());
+                            pr.flush();
+                        }
+                        for(int i = 0 ; i < Item.products.size() ; i++){
+                            pr.print("Product Name :"+Item.products.get(i)+" , Amount :"+Item.products.get(i+1));
+                            pr.flush();
+                            try{
+                            thread.sleep(86400000);}catch(InterruptedException e){
+                                System.out.println(e);
+                                SendExMessage(e);
+                                
+                            }
+                        }  
+                    }
+
+                } catch (FileNotFoundException ex){
+                    System.out.println(ex);
+                    SendExMessage(ex);
+                }catch(IOException ex){
+                    System.out.println(ex);
+                    SendExMessage(ex);
+                        
+                    }}
+
+
     }
   
     
