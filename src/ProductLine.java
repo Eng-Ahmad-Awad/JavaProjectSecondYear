@@ -1,4 +1,10 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
+import javax.imageio.IIOException;
 
 public class ProductLine  implements Runnable{
             Scanner in = new Scanner(System.in);
@@ -86,8 +92,8 @@ public class ProductLine  implements Runnable{
                         try {
                             thread.sleep(10000);
                         } catch (InterruptedException ex) {
-
-                                System.out.println(ex);                        }
+                            SendExMessage(ex);
+                            System.out.println(ex);                        }
                     }while(j==false);
                     System.out.println(costumerName+", your suspended order : "+Amount+" of "+ Proudect.getProductName()+" has been completed");
                     pullAmount(Proudect, Amount, costumerName);
@@ -105,8 +111,54 @@ public class ProductLine  implements Runnable{
                 Item.Add_products(proudect.getProductName(),Amount);
             }
 
-            //
+            //تابع بسجل الاستثناءات الى ملف error.txt
 
+            public void SendExMessage(Exception e){
+                try {
+                    FileWriter fw = new FileWriter("error.txt" , true);
+                    PrintWriter pr = new PrintWriter(fw);
+                    pr.print(e);
+                    pr.flush();
+                } catch (FileNotFoundException ex){
+                    System.out.println(ex);
+                    SendExMessage(ex);
+                }catch(IOException ex){
+                    System.out.println(ex);
+                    SendExMessage(ex);
+                        
+                    }
+            }
+
+            //تابع يسجل حالة المخزون بشكل يومي الى ملف نصي
+
+            public void SendStoreMessage(){ try {
+                    File f = new File("store.txt");
+                    PrintWriter pr = new PrintWriter(f);
+                    while (true) { 
+                        for(int i = 0 ; i < Item.OItems.size(); i++){
+                            pr.print("Item Name :"+Item.OItems.get(i).itemName+" , Amount :"+Item.OItems.get(i).getAmount());
+                            pr.flush();
+                        }
+                        for(int i = 0 ; i < Item.products.size() ; i++){
+                            pr.print("Product Name :"+Item.products.get(i)+" , Amount :"+Item.products.get(i+1));
+                            pr.flush();
+                            try{
+                            thread.sleep(86400000);}catch(InterruptedException e){
+                                System.out.println(e);
+                                SendExMessage(e);
+                                
+                            }
+                        }  
+                    }
+
+                } catch (FileNotFoundException ex){
+                    System.out.println(ex);
+                    SendExMessage(ex);
+                }catch(IOException ex){
+                    System.out.println(ex);
+                    SendExMessage(ex);
+                        
+                    }}
 
 
     }
