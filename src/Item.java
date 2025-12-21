@@ -11,6 +11,7 @@ public class Item {
     private int price ;
     private int amount ;
     private float limit ;
+    private String status;
     private static int counter=1 ;
 
     //constructor 
@@ -38,20 +39,53 @@ public class Item {
         this.amount = amount ;
     }
 
-    //تابع يضيف المنتجات المصنعة للمخزون و اذا كانت موجودة يزيد العدد
-
-
-    public static void Add_products(String productName , int productAmount){
-        for(int i = 0 ; i<products.size(); i+=2 ){
-            if(products.get(i).equals(productName)){
-                products.set(i+1 , productAmount);
-            }else{
-                products.add(productName);
-                products.add(productAmount);
-            }
-
-        }
+    public String getItemName() {
+        return itemName;
     }
+
+    public String getTybe() {
+        return tybe;
+    }
+
+    public float getLimit() {
+        return limit;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public void setTybe(String tybe) {
+        this.tybe = tybe;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public void setLimit(float limit) {
+        this.limit = limit;
+    }
+
+    public String getStatus() {
+        if (amount > limit ){
+            status = "available";
+        }else if(amount < limit && amount > 0){
+            status = "below the minimum";
+        }else if(amount==0){
+            status ="sold out";
+        }
+        return status;
+    }
+
+
+
+
+   
 
       
 
