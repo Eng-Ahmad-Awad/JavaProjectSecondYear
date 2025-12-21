@@ -1,4 +1,5 @@
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -78,47 +79,134 @@ public class Management {
 
     //اضافة عناصر 
 
-    public void Add_Item(){
-
+    public void Add_Item(String itemName, String tybe, int price, int amount, float limit){
+        Item i = new Item(itemName, tybe, price, amount, limit);
     }
 
     //عرض عناصر 
 
     public void View_Item(){
+        System.out.println("the items : ");
+        for(int i = 0 ; i < Item.OItems.size() ; i++){
 
+            System.out.println(i+1 +". "+Item.OItems.get(i).getItemName() +" , the amount :"+ Item.OItems.get(i).getAmount() +" ,the type : " + Item.OItems.get(i).getTybe() + " ,the price : " +  Item.OItems.get(i).getPrice() + " ,the limit : " + Item.OItems.get(i).getLimit());
+        }
     }
 
     //تعديل عناصر 
 
     public void Edit_Item(){
+        View_Item();
+        System.out.println("chose the item that you want to edit(chose number) .");
+        int c = in.nextInt();
+        String oldName = Item.OItems.get(c-1).getItemName() ;
+        String oldType = Item.OItems.get(c-1).getTybe();
+        int oldPrice = Item.OItems.get(c-1).getPrice();
+        int oldAmount = Item.OItems.get(c-1).getAmount();
+        float oldLimit = Item.OItems.get(c-1).getLimit();
+
+        System.out.print("enter new name : ");
+        String newName = in.nextLine();
+        Item.OItems.get(c).setItemName(newName);
+
+        System.out.print("enter new type : ");
+        String newType = in.nextLine();
+        Item.OItems.get(c).setTybe(newType);
+
+        System.out.print("enter new price : ");
+        int newPrice = in.nextInt() ;
+        Item.OItems.get(c).setPrice(newPrice);
+
+        System.out.print("enter new amount : ");
+        int newAmount = in.nextInt();
+        Item.OItems.get(c).setAmount(newAmount);
+
+        System.out.println("enter new limit : ");
+        float newLimit = in.nextFloat();
+        Item.OItems.get(c).setLimit(newLimit);
 
     }
 
     //حذف عناصر
 
     public void Delete_Item(){
-
+        View_Item();
+        System.out.println("chose the item that you want to delete (chose number) .");
+        int c = in.nextInt();
+        Item.OItems.remove(c-1);
     }
 
     //بحث و تصفية للعناصر حسب الاسم
 
-    public void Searsh_Name_Item(){
+    public void Searsh_Name_Item(String name){
+        boolean b =false;
+        for(int i = 0 ; i < Item.OItems.size() ; i++){
+            if(Item.OItems.get(i).getItemName().equals(name)){
+            System.out.println("Item : "+Item.OItems.get(i).getItemName() +" , the amount :"+ Item.OItems.get(i).getAmount() +" ,the type : " + Item.OItems.get(i).getTybe() + " ,the price : " +  Item.OItems.get(i).getPrice() + " ,the limit : " + Item.OItems.get(i).getLimit());
+            b=true;
+            }if(b==false){
+                System.out.println("the item not exist or you made a mistake entering .");
+            }
+        }
 
     }
 
     //بحث و تصفية للعناصر حسب الفئة
 
 
-    public void Searsh_Type_Item(){
+    public void Searsh_Type_Item(String type){ boolean b =false;
+        for(int i = 0 ; i < Item.OItems.size() ; i++){
+            if(Item.OItems.get(i).getItemName().equals(type)){
+            System.out.println("Item : "+Item.OItems.get(i).getItemName() +" , the amount :"+ Item.OItems.get(i).getAmount() +" ,the type : " + Item.OItems.get(i).getTybe() + " ,the price : " +  Item.OItems.get(i).getPrice() + " ,the limit : " + Item.OItems.get(i).getLimit());
+            b=true;
+            }if(b==false){
+                System.out.println("the item not exist or you made a mistake entering .");
+            }
+        }
 
     }
 
     //بحث و تصفية للعناصر حسب الحالة 
 
-    public void Searsh_status_Item(){
-        
+    public void Searsh_status_Item(String status){
+         boolean b =false;
+        for(int i = 0 ; i < Item.OItems.size() ; i++){
+            if(Item.OItems.get(i).getStatus().equals(status)){
+            System.out.println("Item : "+Item.OItems.get(i).getItemName() +" , the amount :"+ Item.OItems.get(i).getAmount() +" ,the type : " + Item.OItems.get(i).getTybe() + " ,the price : " +  Item.OItems.get(i).getPrice() + " ,the limit : " + Item.OItems.get(i).getLimit());
+            b=true;
+            }if(b==false){
+                System.out.println("the item not exist or you made a mistake entering .");
+            }
+        }
+
     }
 
+    //يحفظ حالة المخزون
+
+     public void SendStoreMessage() {
+        try {
+            File f = new File("store.txt");
+            PrintWriter pr = new PrintWriter(f);
+            while (true) {
+                for (int i = 0; i < Item.OItems.size(); i++) {
+                    pr.print("Item Name :" + Item.OItems.get(i).itemName + " , Amount :" + Item.OItems.get(i).getAmount());
+                    pr.flush();
+                }
+                for (int i = 0; i < Item.products.size(); i++) {
+                    pr.print("Product Name :" + Item.products.get(i) + " , Amount :" + Item.products.get(i + 1));
+                    pr.flush();}
+                    
+            }
+
+        } catch (FileNotFoundException ex) {
+            System.out.println(ex);
+            ProductLine.productLines.get(1).SendExMessage(ex);
+        } catch (IOException ex) {
+            System.out.println(ex);
+             ProductLine.productLines.get(1).SendExMessage(ex);
+
+        }
+    }
 
 
 

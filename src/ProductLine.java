@@ -210,14 +210,15 @@ public class ProductLine implements Runnable {
                 }
                 for (int i = 0; i < Item.products.size(); i++) {
                     pr.print("Product Name :" + Item.products.get(i) + " , Amount :" + Item.products.get(i + 1));
-                    pr.flush();
+                    pr.flush();}
+                    
                     try {
                         thread.sleep(86400000);
                     } catch (InterruptedException e) {
                         System.out.println(e);
                         SendExMessage(e);
                     }
-                }
+                
             }
 
         } catch (FileNotFoundException ex) {
