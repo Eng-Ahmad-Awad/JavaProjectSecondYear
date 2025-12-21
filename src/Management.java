@@ -7,6 +7,8 @@ import java.util.Scanner;
 
 public class Management {
     Scanner in = new Scanner(System.in);
+
+    //توابع المدير
     
     //اضافة خط انتاج جديد
     public void Add_ProductLine(String LineName, String ProductLinestatus) {
@@ -69,8 +71,55 @@ public class Management {
             }
 
         }
+  
+    }
 
+    //توابع مشرف الانتاج
+
+    //اضافة عناصر 
+
+    public void Add_Item(){
 
     }
+
+    //عرض عناصر 
+
+    public void View_Item(){
+
+    }
+
+    //تعديل عناصر 
+
+    public void Edit_Item(){
+
+    }
+
+    //حذف عناصر
+
+    public void Delete_Item(){
+
+    }
+
+    //بحث و تصفية للعناصر حسب الاسم
+
+    public void Searsh_Name_Item(){
+
+    }
+
+    //بحث و تصفية للعناصر حسب الفئة
+
+
+    public void Searsh_Type_Item(){
+
+    }
+
+    //بحث و تصفية للعناصر حسب الحالة 
+
+    public void Searsh_status_Item(){
+        
+    }
+
+
+
 
 }
