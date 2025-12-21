@@ -38,20 +38,9 @@ public class Item {
         this.amount = amount ;
     }
 
-    //تابع يضيف المنتجات المصنعة للمخزون و اذا كانت موجودة يزيد العدد
 
 
-    public static void Add_products(String productName , int productAmount){
-        for(int i = 0 ; i<products.size(); i+=2 ){
-            if(products.get(i).equals(productName)){
-                products.set(i+1 , productAmount);
-            }else{
-                products.add(productName);
-                products.add(productAmount);
-            }
-
-        }
-    }
+   
 
       
 
