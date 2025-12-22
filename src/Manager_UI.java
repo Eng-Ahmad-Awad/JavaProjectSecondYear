@@ -1,11 +1,11 @@
 
 import javax.swing.JFrame;
 
-public class Manger_UI {
+public class Manager_UI {
     JFrame  frame = new JFrame() ;
 
-    
-    public Manger_UI(){
+
+    public Manager_UI(){
 
 
         frame.setSize(800,600);

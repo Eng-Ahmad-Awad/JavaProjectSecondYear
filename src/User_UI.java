@@ -1,45 +1,68 @@
-import java.awt.Dimension;
+
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 public class User_UI {
     JFrame frame = new JFrame();
-    JButton button1 = new JButton();
-    JButton button2 = new JButton();
-    JLabel label = new JLabel();
+    JButton subment = new JButton();
+    JPasswordField passField = new JPasswordField();
+    JTextField userField = new JTextField();
+    JLabel lblhead;
+    JLabel lbluser;
+    JLabel lblpass;
+    JPanel panelhead;
+    JPanel panelcent;
+    JPanel paneldown;
 
     public User_UI() {
 
-        label.setText("Chose your business");
-        label.setSize(new Dimension(500, 50));
-        label.setVerticalAlignment(JLabel.TOP);
-        label.setHorizontalAlignment(JLabel.CENTER);
+        //header
+        lblhead = new JLabel("Welcome in Factory App");
+        panelhead = new JPanel();
+        panelhead.setLayout(new FlowLayout());
+        panelhead.add(lblhead);
 
-        button1.setBounds(150, 50, 80, 25);
-        button1.setFocusable(false);
-        button1.setText("Manager");
-        button1.addActionListener(e -> {
-            Manager_UI mg = new Manager_UI();
-            frame.dispose();
+        //center
+        lbluser = new JLabel("User_Name");
+        lbluser.setHorizontalAlignment(JLabel.CENTER);
+        lblpass = new JLabel("Passowrd");
+        lblpass.setHorizontalAlignment(JLabel.CENTER);
+        userField = new JTextField("");
+        passField = new JPasswordField("");
+        panelcent = new JPanel();
+        panelcent.setLayout(new GridLayout(2, 2));
+        panelcent.add(lbluser);
+        panelcent.add(userField);
+        panelcent.add(lblpass);
+        panelcent.add(passField);
+
+        //down button
+        subment = new JButton("Login");
+        subment.addActionListener(e -> {
+            //git the data and check from user state
+            
+            
         });
+        paneldown = new JPanel();
+        paneldown.setLayout(new FlowLayout());
+        paneldown.add(subment);
 
-        button2.setBounds(300, 50, 80, 25);
-        button2.setFocusable(false);
-        button2.setText("HR");
-        button2.addActionListener(e -> {
-            Hr_UI hr = new Hr_UI();
-            frame.dispose();
-        });
-
-        // frame
-        frame.setTitle("Java Second Year Project");
+        //frame
+        frame = new JFrame("Sign in");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(new Dimension(500, 500));
-        frame.setLayout(null);
-        frame.add(label);
-        frame.add(button1);
-        frame.add(button2);
+        frame.setLayout(new BorderLayout());
+        frame.setSize(400, 200);
         frame.setVisible(true);
+        frame.add(panelhead, BorderLayout.NORTH);
+        frame.add(panelcent, BorderLayout.CENTER);
+        frame.add(paneldown, BorderLayout.SOUTH);
+
     }
 }
