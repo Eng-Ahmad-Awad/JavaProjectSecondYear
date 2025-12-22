@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Item {
+    static List <Product>pproduct = new ArrayList<>();
     static List products = new ArrayList();
     static List<Item> OItems = new ArrayList<>();
     private int itemId ;
@@ -23,7 +24,6 @@ public class Item {
         this.limit = limit;
         this.itemId = counter ;
         counter++;
-        products.add(itemName);
         OItems.add(this);
     }
 

@@ -1,10 +1,13 @@
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Task {
 
     Scanner in = new Scanner(System.in);
+    static List<Task>tasks = new ArrayList<>(); 
     private int taskNumber;
     private Product wantedProduct;
     private int wantedAmount;
@@ -13,7 +16,9 @@ public class Task {
     private LocalDate finishDate;
     private String TaskStatus;
     private ProductLine productLine;
+    private int done = 0 ;
     static int count = 1;
+
 
     //constructer
     public Task(Product wantedProduct, int wantedAmount, String costumerName, ProductLine productLine) {
@@ -23,45 +28,45 @@ public class Task {
         this.costumerName = costumerName;
         taskNumber = count;
         count++;
-        ((ProductLine) productLine).startProductLine(costumerName, wantedProduct, wantedAmount);
+        tasks.add(this);
+        productLine.startProductLine(costumerName, wantedProduct, wantedAmount ,this);
+        
+
     }
-//تم النقل الى management
-    // //اضافة خط انتاج جديد
-    // public void Add_ProductLine(String LineName, String ProductLinestatus) {
-    //     ProductLine p = new ProductLine(LineName, ProductLinestatus);
-    //     ProductLine.productLines.add(p);
 
-    // }
+    
+    public void setDone(int done) {
+        this.done = done;
+    }
 
-    // //التعديل على خط انتاج
-    // public void ProductLine_editer1() {
-    //     System.out.println("chose the Product line that you want to edit :");
-    //     int i;
-    //     for (i = 0; i < productLine.productLines.size(); i++) {
-    //         System.out.println(i + 1 + "." + productLine.productLines.get(i).getLineName() + " , status : " + ProductLine.productLines.get(i).getProductLinestatus());
-    //     }
-    //     System.out.println("enter the new name :");
-    //     String NewName = in.nextLine();
-    //     System.out.println("enter the new satus :");
-    //     String NewStatus = in.nextLine();
-    //     ProductLine_editer2(ProductLine.productLines.get(i), NewName, NewStatus);
-    // }
 
-    // public void ProductLine_editer2(ProductLine p, String LineName, String ProductLinestatus) {
-    //     p.setLineName(LineName);
-    //     p.setProductLinestatus(ProductLinestatus);
-    // }
+    public Product getWantedProduct() {
+        return wantedProduct;
+    }
 
-    // //عرض اداء خطوط الانتاج
-    // public void View_ProductLine_Performance() {
-    //     System.out.println("The Product Line currently in operation :");
-    //     for (int i = 0; i < ProductLine.productLines.size(); i++) {
-    //         if (ProductLine.productLines.get(i).thread.isAlive()) {
-    //             System.out.println(i + ". " + ProductLine.productLines.get(i).getLineName());
-    //         }            
-    //     }
-    //     System.out.println("chose number :");
+    public int getWantedAmount() {
+        return wantedAmount;
+    }
 
-    // }
+    public String getCostumerName() {
+        return costumerName;
+    }
+
+    
+    
+
+    public int getDone() {
+        return done;
+    }
+
+    public ProductLine getProductLine() {
+        return productLine;
+    }
+
+    public String getTaskStatus() {
+        return TaskStatus;
+    }
+
+
 
 }
