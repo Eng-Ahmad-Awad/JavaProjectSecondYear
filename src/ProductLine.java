@@ -7,12 +7,15 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Stack;
 import javax.imageio.IIOException;
 
 public class ProductLine implements Runnable {
 
     Scanner in = new Scanner(System.in);
     static List<ProductLine> productLines = new ArrayList<>();
+    static List<String> deferentproductLines = new ArrayList<>();
+
     private int lineNumber;
     private String LineName;
     private String ProductLinestatus;
@@ -21,24 +24,36 @@ public class ProductLine implements Runnable {
     Thread thread;
 
 //constructer
-    public ProductLine(String LineName, String ProductLinestatus) {
+    public ProductLine(String LineName, String ProductLinestatus ) {
         this.ProductLinestatus = ProductLinestatus;
         this.LineName = LineName;
         thread = new Thread(this, LineName);
         lineNumber = count;
         count++;
         productLines.add(this);
+        boolean b =true ;
+        for(int i = 0 ; i < deferentproductLines.size() ; i++){
+            if(deferentproductLines.get(i).equals(LineName)){
+                b = false ;
+            }
+        
+        }
+        if(b==true){
+            deferentproductLines.add(LineName);
+        }
     }
 
 //creat and start
     private Product proudect;
     private int Amount;
     private String costumerN;
-
-    public ProductLine startProductLine(String costumerName, Product wantedProduct, int wantedAmount) {
+    Task task ;
+    public ProductLine startProductLine(String costumerName, Product wantedProduct, int wantedAmount , Task task) {
         Amount = wantedAmount;
         proudect = wantedProduct;
         costumerN = costumerName;
+        this.task = task ;
+        setProductLinestatus("under implementation");
         this.thread.start();
         return this;
     }
@@ -79,7 +94,7 @@ public class ProductLine implements Runnable {
     }
 
     public int getDone (){
-        return done ;
+        return task.getDone() ;
     }
 
     @Override
@@ -100,7 +115,6 @@ public class ProductLine implements Runnable {
         boolean b = true;
         for (int i = 0; i < Proudect.Items.size(); i += 2) {
             if (((Item) Proudect.Items.get(i)).getAmount() - ((int) Proudect.Items.get(i + 1) * Amount) > 0) {
-                System.out.println("1i1 = " + i);
             } else {
                 b = false;
             }
@@ -109,14 +123,15 @@ public class ProductLine implements Runnable {
     }
 
     //يقوم بحجز الموارد اللازمة لصنع المنتجات
+
     public void pullAmount(Product Proudect, int Amount, String costumerName) {
         for (int i = 0; i < Proudect.Items.size(); i += 2) {
             int a;
             a = (int) Proudect.Items.get(i + 1) * Amount;
             ((Item) Proudect.Items.get(i)).pullAmount(a);
-            System.out.println("2i2 = " + i);
         }
     }
+
     //تابع يرسل اشعار و يتعامل مع الموارد الغير كافية للمنتجات
 
     public void SendNotification(Product Proudect, int Amount, String costumerName) {
@@ -146,11 +161,11 @@ public class ProductLine implements Runnable {
 
     //تابع يضيف المنتجات المصنعة للمخزون و اذا كانت موجودة يزيد العدد
     
-    int done=0;
+    
     public void AddProudectTOStore(Product product, int Amount) {
         int i;
         boolean b = false;
-        for (i = 0; i < Item.products.size(); i += 2) {
+        for (i = 0 ; i < Item.products.size() ; i += 2) {
             if (Item.products.get(i).equals(product.getProductName())) {
                 b = true;
                 return;
@@ -164,13 +179,22 @@ public class ProductLine implements Runnable {
                         SendExMessage(ex);
 
                     }
-                    Item.products.add(i, 1);
+                    Item.products.set(i+1, j+1);
                 }
             } else {
-                for (done = 1; done <= Amount; done++) {
-                    try {                       
+                Item.products.add(product);
+                Item.pproduct.add(product);
+                int Lastindex = Item.products.size();
+                for (int done = 1; done <= Amount; done++) {  
+                    
+                    try {                  
                         thread.sleep(5000);
-                        Item.products.add(Item.products.size() + 1, 1);
+                        Item.products.set(Lastindex, done);
+                        if(done==Amount){
+                            setProductLinestatus("finished");
+                        }
+                        task.setDone(done);
+
                     } catch (InterruptedException ex) {
                         System.out.println(ex);
                         SendExMessage(ex);
@@ -208,10 +232,10 @@ public class ProductLine implements Runnable {
                     pr.print("Item Name :" + Item.OItems.get(i).itemName + " , Amount :" + Item.OItems.get(i).getAmount());
                     pr.flush();
                 }
-                for (int i = 0; i < Item.products.size(); i++) {
+                for (int i = 0; i < Item.products.size(); i+=2) {
                     pr.print("Product Name :" + Item.products.get(i) + " , Amount :" + Item.products.get(i + 1));
                     pr.flush();}
-                    
+
                     try {
                         thread.sleep(86400000);
                     } catch (InterruptedException e) {

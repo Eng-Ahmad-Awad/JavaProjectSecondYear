@@ -7,8 +7,8 @@ import java.util.List;
 public class Product {
     private int productId ;
     private String productName ;
-   // Map<Item,Integer> Items = new HashMap<Item,Integer >();
-   List Items = new ArrayList();
+    protected static List<Product> OProducts = new ArrayList<>();
+    List Items = new ArrayList();
     private static int counter = 1 ;
 
     //constructor
@@ -21,6 +21,7 @@ public class Product {
         this.Items = Items;
         counter++ ;
         this.productId = counter ;
+        OProducts.add(this);
     }
 
     public String getProductName() {
