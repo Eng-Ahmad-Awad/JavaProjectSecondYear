@@ -1,6 +1,8 @@
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -111,6 +113,7 @@ public class ProductLine implements Runnable {
     }
 
     //يتفقد ما اذا كانت الموارد كافية
+    
     public boolean check(Product Proudect, int Amount, String costumerName) {
         boolean b = true;
         for (int i = 0; i < Proudect.Items.size(); i += 2) {
@@ -161,7 +164,6 @@ public class ProductLine implements Runnable {
 
     //تابع يضيف المنتجات المصنعة للمخزون و اذا كانت موجودة يزيد العدد
     
-    
     public void AddProudectTOStore(Product product, int Amount) {
         int i;
         boolean b = false;
@@ -206,6 +208,7 @@ public class ProductLine implements Runnable {
     }
 
     //تابع بسجل الاستثناءات الى ملف error.txt
+
     public void SendExMessage(Exception e) {
         try {
             FileWriter fw = new FileWriter("error.txt", true);
@@ -223,6 +226,7 @@ public class ProductLine implements Runnable {
     }
 
     //تابع يسجل حالة المخزون بشكل يومي الى ملف نصي
+
     public void SendStoreMessage() {
         try {
             File f = new File("store.txt");
@@ -255,9 +259,27 @@ public class ProductLine implements Runnable {
         }
     }
 
-    //تابع يقرا حالة المخزون من ملف نصي عند تشغيل البرنامج
+    //تابع يقرا حالة المخزون من ملف نصي عند تشغيل 
+    
     public void ReadStoreMessage() {
+        File file = new File("store.txt");
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line = br.readLine();
+            while(line != null){
+                System.out.println(line);
+                line = br.readLine();
+            }
+        } catch (FileNotFoundException ex) {
+            System.out.println(ex);
+            SendExMessage(ex);
+        }catch(IOException e){
+            System.out.println(e);
+            SendExMessage(e);
+        }
+
+        }
 
     }
 
-}
+
