@@ -14,7 +14,9 @@ public class Management {
     Scanner in = new Scanner(System.in);
 
     //توابع المدير
+
     //اضافة خط انتاج جديد
+    
     public void Add_ProductLine(String LineName, String ProductLinestatus) {
         ProductLine p = new ProductLine(LineName, ProductLinestatus);
         ProductLine.productLines.add(p);

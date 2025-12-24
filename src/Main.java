@@ -16,6 +16,7 @@ public class Main {
         Item i4 = new Item("fruits" ,"dietetics",6,500 ,100);
         Item i5 = new Item("oil","dietetics",2,3000 , 1000);
         Item i6 = new Item("flavoring","dietetics",1,300 , 100);
+
         //Creat Product
       
         //مكتب
@@ -57,7 +58,7 @@ public class Main {
         //عصير
         List l5 = new ArrayList();
         l5.add(i4);
-        l5.add((float)2);
+        l5.add(2);
         l5.add(i6);
         l5.add((float)0.25);
         Product p5 = new Product("juice" , l5);
