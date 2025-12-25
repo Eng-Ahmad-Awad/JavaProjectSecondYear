@@ -3,8 +3,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Item {
-    static List <Product>pproduct = new ArrayList<>();
-    static List products = new ArrayList();
+    //يخزن المنتجات المصنعة
+    static List <Product>products_in_Storage = new ArrayList<>();
     static List<Item> OItems = new ArrayList<>();
     private int itemId ;
     protected String itemName ;
@@ -16,6 +16,7 @@ public class Item {
     private static int counter=1 ;
 
     //constructor 
+    public Item(){}
     public Item(String itemName, String tybe, int price, int amount, float limit) {
         this.itemName = itemName;
         this.tybe = tybe;
@@ -37,6 +38,10 @@ public class Item {
     }
     public void setAmount(int amount){
         this.amount = amount ;
+    }
+
+    public void addAmount(int amount){
+        this.amount += amount ;
     }
 
     public String getItemName() {

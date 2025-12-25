@@ -10,6 +10,7 @@ public class Product {
     protected static List<Product> OProducts = new ArrayList<>();
     List Items = new ArrayList();
     private static int counter = 1 ;
+    private int product_Amount_In_Stordge;
 
     //constructor
     
@@ -27,6 +28,16 @@ public class Product {
     public String getProductName() {
         return productName;
     }
+
+    public void setProduct_Amount_In_Stordge(int product_Amount_In_Stordge) {
+        this.product_Amount_In_Stordge = product_Amount_In_Stordge;
+    }
+
+    public int getProduct_Amount_In_Stordge() {
+        return product_Amount_In_Stordge;
+    }
+
+    
 
     
 

@@ -1,0 +1,6 @@
+Item Name :wood , Amount :3229
+Item Name :iron , Amount :7228
+Item Name :potato , Amount :2000
+Item Name :fruits , Amount :500
+Item Name :oil , Amount :3000
+Item Name :flavoring , Amount :300
