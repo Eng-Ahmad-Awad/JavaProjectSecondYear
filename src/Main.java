@@ -76,8 +76,8 @@ public class Main {
 
         Task t1 = new Task(p1 , 77 , "hussien" ,"furniture");
         Task t2 = new Task(p2 , 47 , "ahmad" , "furniture");
-        Task t3 = new Task(p3 , 57 , "ali" ,"furniture");
-        Task t4 = new Task(p4 , 227 , "omar" , "dietetics");
+        // Task t3 = new Task(p3 , 57 , "ali" ,"furniture");
+        // Task t4 = new Task(p4 , 227 , "omar" , "dietetics");
         // Task t5 = new Task(p5 , 117 , "khalid" , pl5);
         // Task t6 = new Task(p5 , 227 , "mohummad" , pl6);
 
@@ -178,8 +178,10 @@ public class Main {
         // mg.View_All_finished_product();//ok
 
        
-
-       
+        
+        ManagerUI mu = new ManagerUI();
+    //    Management mg = new Management();
+    //    mg.View_ProductLine_Performance();
 
 
         for(int i = 0 ; i < ProductLine.productLines.size();i++){

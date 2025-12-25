@@ -25,48 +25,23 @@ public class Management {
     }
 
     //التعديل على خط انتاج
-    public void ProductLine_editer1() {
-        System.out.println("chose the Product line that you want to edit :");
-        int i;
-        boolean b = false ;
-        for (i = 0; i < ProductLine.deferentproductLines.size(); i++) {
-            System.out.print((i + 1) + "." + ProductLine.deferentproductLines.get(i) );
-            //حلقة بس مشان تعرض حالة الخط اذا نشط او لا , ليس لها داعي
-            for(int j = 0 ; j < ProductLine.productLines.size() ; j++){
-                if (ProductLine.deferentproductLines.get(i).equals(ProductLine.productLines.get(j).getLineName())){
-                    if(ProductLine.productLines.get(j).getProductLinestatus().equals("under implementation")){
-                        b = true ;
-                    }
-                }
+   
+    public void ProductLine_editer(String OldLineName, String NewLineName) {
 
-            }
-            
-            if(b == true){
-                System.out.println(" , status : under implementation " );
-            }else{
-                System.out.println(" , status : not activate ");
-            }
-            b = false ;
-        }
-        System.out.println("enter the Product Line number : ");
-        int c =in.nextInt();
-        System.out.println("enter the new name :");
-        String NewName = in.next();
-        //رح نبعث الاسم القديم والجديد
-        ProductLine_editer2(ProductLine.deferentproductLines.get((c-1)), NewName);
-    }
-
-    public void ProductLine_editer2(String OldLineName, String NewLineName) {
-        //رح يغير كل االخطوط يلي بنفس الاسم القديم الى الاسم الجديد
         for(int i = 0 ; i < ProductLine.productLines.size() ; i++){
             if(ProductLine.productLines.get(i).getLineName().equals(OldLineName))
             ProductLine.productLines.get(i).setLineName(NewLineName);
         }
+    for(int i = 0 ; i < ProductLine.deferentproductLines.size() ; i++){
+        if(ProductLine.deferentproductLines.get(i).equals(OldLineName)){
+            ProductLine.deferentproductLines.set(i, NewLineName);
+        }
+    }
     }
 
     //عرض اداء خطوط الانتاج
 
-    public void View_ProductLine_Performance() {
+    public void View_ProductLine_Performance(/*String ProductLine_name , String task_name*/) {
         System.out.println("the product lines :");
         for (int i = 0; i < ProductLine.deferentproductLines.size(); i++) {
             System.out.println((i + 1)+ ". " + ProductLine.deferentproductLines.get(i));
